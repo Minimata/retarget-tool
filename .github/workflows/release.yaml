@@ -5,6 +5,24 @@ on:
     branches:
       - main
 jobs:
+  bump-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.bump-tag.outputs.new_tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+      - name: Bump version and push tag
+        id: bump-tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          PRERELEASE: false
+          INITIAL_VERSION: 0.1.0
+          DEFAULT_BUMP: patch
+
   publish-tauri:
     permissions:
       contents: write
@@ -22,6 +40,8 @@ jobs:
             args: ""
 
     runs-on: ${{ matrix.platform }}
+    
+    needs: bump-tag
     steps:
       - uses: actions/checkout@v4
 
@@ -49,8 +69,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: retarget-tool-v__VERSION__
-          releaseName: retarget-tool v__VERSION__
+          tagName: retarget-tool-${{needs.bump-tag.outputs.tag_name}}
+          releaseName: retarget-tool ${{needs.bump-tag.outputs.tag_name}}
           releaseBody: After installing the Apple app you have to run "xattr -c /Applications/retarget-tool.app" once before launching
           releaseDraft: false
           prerelease: false
