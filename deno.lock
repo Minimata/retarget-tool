@@ -5,6 +5,7 @@
     "npm:@tauri-apps/cli@2": "2.1.0",
     "npm:@tauri-apps/plugin-shell@2": "2.0.1",
     "npm:@vitejs/plugin-vue@^5.0.5": "5.2.1_vite@5.4.11_vue@3.5.13__typescript@5.7.2_typescript@5.7.2",
+    "npm:@vueuse/core@12": "12.0.0_typescript@5.7.2",
     "npm:autoprefixer@^10.4.20": "10.4.20_postcss@8.4.49",
     "npm:daisyui@^4.12.14": "4.12.14_postcss@8.4.49",
     "npm:postcss@^8.4.49": "8.4.49",
@@ -272,6 +273,9 @@
     "@types/estree@1.0.6": {
       "integrity": "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="
     },
+    "@types/web-bluetooth@0.0.20": {
+      "integrity": "sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow=="
+    },
     "@vitejs/plugin-vue@5.2.1_vite@5.4.11_vue@3.5.13__typescript@5.7.2_typescript@5.7.2": {
       "integrity": "sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==",
       "dependencies": [
@@ -387,6 +391,24 @@
     },
     "@vue/shared@3.5.13": {
       "integrity": "sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ=="
+    },
+    "@vueuse/core@12.0.0_typescript@5.7.2": {
+      "integrity": "sha512-C12RukhXiJCbx4MGhjmd/gH52TjJsc3G0E0kQj/kb19H3Nt6n1CA4DRWuTdWWcaFRdlTe0npWDS942mvacvNBw==",
+      "dependencies": [
+        "@types/web-bluetooth",
+        "@vueuse/metadata",
+        "@vueuse/shared",
+        "vue"
+      ]
+    },
+    "@vueuse/metadata@12.0.0": {
+      "integrity": "sha512-Yzimd1D3sjxTDOlF05HekU5aSGdKjxhuhRFHA7gDWLn57PRbBIh+SF5NmjhJ0WRgF3my7T8LBucyxdFJjIfRJQ=="
+    },
+    "@vueuse/shared@12.0.0_typescript@5.7.2": {
+      "integrity": "sha512-3i6qtcq2PIio5i/vVYidkkcgvmTjCqrf26u+Fd4LhnbBmIT6FN8y6q/GJERp8lfcB9zVEfjdV0Br0443qZuJpw==",
+      "dependencies": [
+        "vue"
+      ]
     },
     "alien-signals@0.2.2": {
       "integrity": "sha512-cZIRkbERILsBOXTQmMrxc9hgpxglstn69zm+F1ARf4aPAzdAFYd6sBq87ErO0Fj3DV94tglcyHG5kQz9nDC/8A=="
@@ -1084,6 +1106,7 @@
         "npm:@tauri-apps/cli@2",
         "npm:@tauri-apps/plugin-shell@2",
         "npm:@vitejs/plugin-vue@^5.0.5",
+        "npm:@vueuse/core@12",
         "npm:autoprefixer@^10.4.20",
         "npm:daisyui@^4.12.14",
         "npm:postcss@^8.4.49",

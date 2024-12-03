@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import { useMouse } from '@vueuse/core'
 
 const greetMsg = ref("");
 const name = ref("");
+
+const mouseDefault = useMouse()
 
 async function greet() {
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -32,6 +35,6 @@ async function greet() {
       <input id="greet-input" v-model="name" placeholder="Enter a name..." />
       <button type="submit">Greet</button>
     </form>
-    <p>{{ greetMsg }}</p>
+    <p>{{ mouseDefault.x }} : {{ mouseDefault.y }}</p>
   </main>
 </template>
