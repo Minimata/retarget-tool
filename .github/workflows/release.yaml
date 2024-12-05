@@ -15,7 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: '0'
+      - uses: denoland/setup-deno@v2
+        with:
+            deno-version: v2.x
+      - run: deno fmt
+      - run: deno lint
+      - uses: stefanzweifel/git-auto-commit-action@v5
       - name: Bump version and push tag
         id: bump-tag
         uses: anothrNick/github-tag-action@v1
