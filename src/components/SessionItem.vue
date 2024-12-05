@@ -1,20 +1,24 @@
 <script setup lang="ts">
-const { title, date, isOdd } = defineProps<{
+import { useRouter } from 'vue-router';
+
+const { id, title, date, isOdd } = defineProps<{
+    id: number,
     title: string,
     date: Date,
     isOdd: boolean
 }>()
 
-let mainClass = "flex rounded-full w-full p-1 items-center gap-2"
-if (isOdd) {
-    mainClass += " bg-base-300"
+const router = useRouter()
+function routeToSession() {
+    router.push({ path: '/sessions/' + id, query: { title: title, date: date.toString() } })
 }
 </script>
 
 
 <template>
-    <div :class="mainClass">
-        <button class="btn btn-primary">{{ title }}</button>
+    <div :class="['flex rounded-full w-full p-2 items-center gap-2', isOdd ? 'bg-base-300' : '']">
+
+        <button class="btn btn-primary" @click="routeToSession">{{ title }}</button>
         <div class="badge badge-secondary">{{ date.toDateString() }}</div>
         <div class="grow"></div>
         <button class="btn btn-circle btn-outline btn-error">

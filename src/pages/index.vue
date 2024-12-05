@@ -6,38 +6,47 @@ import SessionItem from '../components/SessionItem.vue';
 
 const sessions = ref([
   {
+    id: 1,
     title: "Session 1",
     date: new Date()
   },
   {
+    id: 2,
     title: "Session 2",
     date: new Date()
   },
   {
+    id: 3,
     title: "Session 3",
     date: new Date()
   },
   {
+    id: 4,
     title: "Session 4",
     date: new Date()
   },
   {
+    id: 5,
     title: "Session 5",
     date: new Date()
   },
   {
+    id: 6,
     title: "Session 6",
     date: new Date()
   },
   {
+    id: 7,
     title: "Session 7",
     date: new Date()
   },
   {
+    id: 8,
     title: "Session 8",
     date: new Date()
   },
   {
+    id: 9,
     title: "Session 9",
     date: new Date()
   },
@@ -62,7 +71,7 @@ const sessions = ref([
       <div v-else class="flex flex-col w-full gap-4">
         <ul>
           <li v-for="(session, index) in sessions">
-            <SessionItem :title="session.title" :date="session.date" :is-odd="index % 2 != 0"/>
+            <SessionItem :id="session.id" :title="session.title" :date="session.date" :is-odd="index % 2 != 0"/>
           </li>
         </ul>
         <button class="btn btn-success rounded-full w-1/5 mx-auto">Create session</button>

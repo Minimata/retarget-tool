@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "npm:@headlessui/vue@^1.7.23": "1.7.23_vue@3.5.13__typescript@5.7.2_typescript@5.7.2",
     "npm:@tauri-apps/api@2": "2.1.1",
     "npm:@tauri-apps/cli@2": "2.1.0",
     "npm:@tauri-apps/plugin-shell@2": "2.0.1",
@@ -109,6 +110,13 @@
     },
     "@esbuild/win32-x64@0.21.5": {
       "integrity": "sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw=="
+    },
+    "@headlessui/vue@1.7.23_vue@3.5.13__typescript@5.7.2_typescript@5.7.2": {
+      "integrity": "sha512-JzdCNqurrtuu0YW6QaDtR2PIYCKPUWq28csDyMvN4zmGccmE7lz40Is6hc3LA4HFeCI7sekZ/PQMTNmn9I/4Wg==",
+      "dependencies": [
+        "@tanstack/vue-virtual",
+        "vue"
+      ]
     },
     "@isaacs/cliui@8.0.2": {
       "integrity": "sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==",
@@ -226,6 +234,16 @@
     },
     "@rollup/rollup-win32-x64-msvc@4.27.4": {
       "integrity": "sha512-3j4jx1TppORdTAoBJRd+/wJRGCPC0ETWkXOecJ6PPZLj6SptXkrXcNqdj0oclbKML6FkQltdz7bBA3rUSirZug=="
+    },
+    "@tanstack/virtual-core@3.10.9": {
+      "integrity": "sha512-kBknKOKzmeR7lN+vSadaKWXaLS0SZZG+oqpQ/k80Q6g9REn6zRHS/ZYdrIzHnpHgy/eWs00SujveUN/GJT2qTw=="
+    },
+    "@tanstack/vue-virtual@3.10.9_vue@3.5.13__typescript@5.7.2_typescript@5.7.2": {
+      "integrity": "sha512-KU2quiwJQpA0sdflpXw24bhW+x8PG+FlrSJK3Ilobim671HNn4ztLVWUCEz3Inei4dLYq+GW1MK9X6i6ZeirkQ==",
+      "dependencies": [
+        "@tanstack/virtual-core",
+        "vue"
+      ]
     },
     "@tauri-apps/api@2.1.1": {
       "integrity": "sha512-fzUfFFKo4lknXGJq8qrCidkUcKcH2UHhfaaCNt4GzgzGaW2iS26uFOg4tS3H4P8D6ZEeUxtiD5z0nwFF0UN30A=="
@@ -1245,6 +1263,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@headlessui/vue@^1.7.23",
         "npm:@tauri-apps/api@2",
         "npm:@tauri-apps/cli@2",
         "npm:@tauri-apps/plugin-shell@2",
