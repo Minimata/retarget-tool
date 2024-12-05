@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
 import { useMouse } from '@vueuse/core'
+import NavBar from "./components/NavBar.vue";
+import MainWrapper from "./components/MainWrapper.vue";
+import TopWrapper from "./components/TopWrapper.vue";
 
 const greetMsg = ref("");
 const name = ref("");
@@ -15,24 +18,14 @@ async function greet() {
 </script>
 
 <template>
-  <h1>Hello App!</h1>
-  <p>
-    <strong>Current route path:</strong> {{ $route.fullPath }}
-  </p>
-  <nav>
-    <RouterLink to="/">Go to Home</RouterLink>
-    <RouterLink to="/about">Go to About</RouterLink>
-  </nav>
-
-  <main class="container">
-    <h1 class="text-xl font-bold">Welcome to Tauri</h1>
-
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ mouseDefault.x }} : {{ mouseDefault.y }}</p>
-
-    <RouterView />
-  </main>
+  <TopWrapper>
+    <NavBar />
+    <MainWrapper>
+      <!-- <form class="row" @submit.prevent="greet">
+        <input id="greet-input" v-model="name" placeholder="Enter a name..." />
+        <button type="submit">Greet</button>
+      </form> -->
+      <RouterView />
+    </MainWrapper>
+  </TopWrapper>
 </template>
