@@ -1,57 +1,59 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useSessionsStore } from '../stores/sessions';
 
 import SectionTitle from '../components/SectionTitle.vue';
 import SessionItem from '../components/SessionItem.vue';
+import NewSessionModal from '../components/NewSessionModal.vue';
 
-const sessions = ref([
-  {
-    id: 1,
-    title: "Session 1",
-    date: new Date()
-  },
-  {
-    id: 2,
-    title: "Session 2",
-    date: new Date()
-  },
-  {
-    id: 3,
-    title: "Session 3",
-    date: new Date()
-  },
-  {
-    id: 4,
-    title: "Session 4",
-    date: new Date()
-  },
-  {
-    id: 5,
-    title: "Session 5",
-    date: new Date()
-  },
-  {
-    id: 6,
-    title: "Session 6",
-    date: new Date()
-  },
-  {
-    id: 7,
-    title: "Session 7",
-    date: new Date()
-  },
-  {
-    id: 8,
-    title: "Session 8",
-    date: new Date()
-  },
-  {
-    id: 9,
-    title: "Session 9",
-    date: new Date()
-  },
-])
+// const sessions = ref([
+//   {
+//     id: 1,
+//     title: "Session 1",
+//     date: new Date()
+//   },
+//   {
+//     id: 2,
+//     title: "Session 2",
+//     date: new Date()
+//   },
+//   {
+//     id: 3,
+//     title: "Session 3",
+//     date: new Date()
+//   },
+//   {
+//     id: 4,
+//     title: "Session 4",
+//     date: new Date()
+//   },
+//   {
+//     id: 5,
+//     title: "Session 5",
+//     date: new Date()
+//   },
+//   {
+//     id: 6,
+//     title: "Session 6",
+//     date: new Date()
+//   },
+//   {
+//     id: 7,
+//     title: "Session 7",
+//     date: new Date()
+//   },
+//   {
+//     id: 8,
+//     title: "Session 8",
+//     date: new Date()
+//   },
+//   {
+//     id: 9,
+//     title: "Session 9",
+//     date: new Date()
+//   },
+// ])
 
+const { sessions } = useSessionsStore()
 
 </script>
 
@@ -60,7 +62,7 @@ const sessions = ref([
     <SectionTitle>Sessions</SectionTitle>
 
     <div class="flex justify-center">
-      <div v-if="sessions.length == 0" class="card bg-base-100 w-96 shadow-xl">
+      <div v-if="sessions.size == 0" class="card bg-base-100 w-96 shadow-xl">
         <div class="card-body">
           <h2 class="card-title">No sessions yet...</h2>
           <div class="card-actions justify-end">
@@ -70,11 +72,17 @@ const sessions = ref([
       </div>
       <div v-else class="flex flex-col w-full gap-4">
         <ul>
-          <li v-for="(session, index) in sessions">
-            <SessionItem :id="session.id" :title="session.title" :date="session.date" :is-odd="index % 2 != 0"/>
+          <li v-for="([sessionId, session], index) in sessions">
+            <SessionItem :id="session.id" :name="session.name" :date="session.date" :is-odd="index % 2 != 0" />
           </li>
         </ul>
-        <button class="btn btn-success rounded-full w-1/5 mx-auto">Create session</button>
+        <button class="btn btn-success rounded-full w-1/5 mx-auto" onclick="modal.showModal()">
+          Create session
+        </button>
+
+        <dialog id="modal" class="modal">
+          <NewSessionModal />
+        </dialog>
       </div>
     </div>
   </div>

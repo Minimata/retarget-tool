@@ -1,18 +1,31 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useSessionsStore } from '../../stores/sessions';
 
+const { sessions } = useSessionsStore()
 const route = useRoute('/sessions/[id]')
+const possibleSession = sessions.get(+route.params.id)
+
+const router = useRouter()
+if (possibleSession === undefined) {
+    router.push({ path: '/sessions/404'})
+}
+
+const session = possibleSession!
 
 </script>
 
 <template>
     <p class="text-xl">
-        {{ route.params.id }}
+        {{ session.id }}
     </p>
     <p class="text-xl">
-        {{ route.query.title }}
+        {{ session.name }}
     </p>
     <p class="text-xl">
-        {{ new Date(route.query.date as string) }}
+        {{ session.date }}
+    </p>
+    <p class="text-xl">
+        {{ session.path }}
     </p>
 </template>
