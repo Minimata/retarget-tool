@@ -4,6 +4,7 @@ import { useSessionsStore } from '../stores/sessions';
 import SectionTitle from '../components/SectionTitle.vue';
 import SessionItem from '../components/SessionItem.vue';
 import NewSessionModal from '../components/NewSessionModal.vue';
+import { ref } from 'vue';
 
 // const sessions = ref([
 //   {
@@ -55,6 +56,11 @@ import NewSessionModal from '../components/NewSessionModal.vue';
 
 const { sessions } = useSessionsStore()
 
+const isModalOpen = ref(false)
+const openModal = () => {
+    isModalOpen.value = true
+}
+
 </script>
 
 <template>
@@ -76,13 +82,11 @@ const { sessions } = useSessionsStore()
             <SessionItem :id="session.id" :name="session.name" :date="session.date" :is-odd="index % 2 != 0" />
           </li>
         </ul>
-        <button class="btn btn-success rounded-full w-1/5 mx-auto" onclick="modal.showModal()">
+        <button class="btn btn-success rounded-full w-1/5 mx-auto" @click="openModal">
           Create session
         </button>
 
-        <dialog id="modal" class="modal">
-          <NewSessionModal />
-        </dialog>
+        <NewSessionModal v-model="isModalOpen" is-open="isModalOpen"/>
       </div>
     </div>
   </div>
