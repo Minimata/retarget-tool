@@ -72,7 +72,7 @@ const { sessions } = useSessionsStore()
       </div>
       <div v-else class="flex flex-col w-full gap-4">
         <ul>
-          <li v-for="([sessionId, session], index) in sessions">
+          <li v-for="([_, session], index) in sessions">
             <SessionItem :id="session.id" :name="session.name" :date="session.date" :is-odd="index % 2 != 0" />
           </li>
         </ul>

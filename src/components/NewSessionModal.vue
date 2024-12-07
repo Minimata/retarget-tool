@@ -1,27 +1,48 @@
+<script setup lang="ts">
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { ref } from 'vue';
+import * as yup from 'yup';
+import FormTextInput from './FormTextInput.vue';
+
+
+const form = ref()
+const schema = yup.object({
+    name: yup.string().required(),
+    date: yup.date().required(),
+    folder: yup.string().required()
+})
+const formData = ref({
+    name: '',
+    date: '',
+    path: ''
+})
+
+const submit = (values: any) => {
+    // implement your logic here
+    console.log(values)
+}
+const reset = () => {
+    form.value.resetForm()
+}
+</script>
+
 <template>
     <div class="modal-box">
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
         <h3 class="text-lg font-bold">Create new session</h3>
-        <label class="form-control w-full max-w-xs">
-            <div class="label">
-                <span class="label-text">Session name</span>
+
+        <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
+            <FormTextInput placeholder="My latest session..." label="Session name" name="name" type="text" />
+            <FormTextInput placeholder="22-07-2024" label="Session date" name="date" type="text" />
+            <FormTextInput placeholder="D:/Path/To/Data" label="Session folder path" name="path" type="text"/>
+
+            <div class="">
+                <button class="btn btn-success" type="submit">Submit</button>
+                <button @click="reset" class="btn btn-danger" type="button">Reset</button>
             </div>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-        </label>
-        <label class="form-control w-full max-w-xs">
-            <div class="label">
-                <span class="label-text">Date</span>
-            </div>
-            <input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-        </label>
-        <label class="form-control w-full max-w-xs">
-            <div class="label">
-                <span class="label-text">Select a folder</span>
-            </div>
-            <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
-        </label>
+        </Form>
     </div>
     <form method="dialog" class="modal-backdrop">
         <button>close</button>
