@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form } from 'vee-validate';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import * as yup from 'yup';
 
 import {
@@ -12,43 +12,48 @@ import {
 
 import FormTextInput from './FormTextInput.vue';
 
-const isOpen = defineModel({ default: false })
+const isOpen = defineModel<boolean>()
+
+watch(isOpen, (newValue, oldValue) => {
+    console.log("Within");
+    console.log(newValue);
+})
 
 function setIsOpen(value: boolean) {
     isOpen.value = value
 }
 
-// const form = ref()
-// const schema = yup.object({
-//     name: yup.string().required(),
-//     date: yup.date().required(),
-//     folder: yup.string().required()
-// })
-// const formData = ref({
-//     name: '',
-//     date: '',
-//     path: ''
-// })
+const form = ref()
+const schema = yup.object({
+    name: yup.string().required(),
+    date: yup.date().required(),
+    folder: yup.string().required()
+})
+const formData = ref({
+    name: '',
+    date: '',
+    path: ''
+})
 
-// const submit = (values: any) => {
-//     // implement your logic here
-//     console.log(values)
-// }
-// const reset = () => {
-//     form.value.resetForm()
-// }
+const submit = (values: any) => {
+    // implement your logic here
+    console.log(values)
+}
+const reset = () => {
+    form.value.resetForm()
+}
+
 </script>
 
 <template>
-
-    <Dialog :open="isOpen" @close="setIsOpen">
-        <DialogPanel>
+    <Dialog :open="isOpen" @close="setIsOpen" class="">
+        <DialogPanel class="modal-box">
             <DialogTitle>Create new session</DialogTitle>
             <DialogDescription>
                 Start a new mocap shooting here
             </DialogDescription>
 
-            <!-- <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
+            <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
                 <FormTextInput placeholder="My latest session..." label="Session name" name="name" type="text" />
                 <FormTextInput placeholder="22-07-2024" label="Session date" name="date" type="text" />
                 <FormTextInput placeholder="D:/Path/To/Data" label="Session folder path" name="path" type="text" />
@@ -58,9 +63,7 @@ function setIsOpen(value: boolean) {
                     <button @click="reset" class="btn btn-danger" type="button">Reset</button>
                     <button @click="setIsOpen(false)">Cancel</button>
                 </div>
-            </Form> -->
-
-            <button>Deactivate</button>
+            </Form>
         </DialogPanel>
     </Dialog>
 
