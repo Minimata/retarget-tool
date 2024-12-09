@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form } from 'vee-validate';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import * as yup from 'yup';
 
 import {
@@ -14,7 +14,7 @@ import FormTextInput from './FormTextInput.vue';
 
 const isOpen = defineModel<boolean>()
 
-watch(isOpen, (newValue, oldValue) => {
+watch(isOpen, (newValue) => {
     console.log("Within");
     console.log(newValue);
 })
