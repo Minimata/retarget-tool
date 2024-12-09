@@ -1,23 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import { Form } from 'vee-validate';
-import { ref, watch, onMounted } from 'vue';
-import * as yup from 'yup';
+import * as yup from 'yup'; 
 
 import {
+    TransitionRoot,
+    TransitionChild,
     Dialog,
     DialogPanel,
     DialogTitle,
-    DialogDescription,
 } from '@headlessui/vue'
 
 import FormTextInput from './FormTextInput.vue';
+import FormDateInput from './FormDateInput.vue';
+import FormFileInput from './FormFileInput.vue';
 
 const isOpen = defineModel<boolean>()
-
-watch(isOpen, (newValue) => {
-    console.log("Within");
-    console.log(newValue);
-})
 
 function setIsOpen(value: boolean) {
     isOpen.value = value
@@ -27,7 +26,7 @@ const form = ref()
 const schema = yup.object({
     name: yup.string().required(),
     date: yup.date().required(),
-    folder: yup.string().required()
+    path: yup.string().required()
 })
 const formData = ref({
     name: '',
@@ -39,42 +38,59 @@ const submit = (values: any) => {
     // implement your logic here
     console.log(values)
 }
-const reset = () => {
-    form.value.resetForm()
+
+function closeModal() {
+    isOpen.value = false
 }
 
 </script>
 
 <template>
-    <Dialog :open="isOpen" @close="setIsOpen" class="">
-        <DialogPanel class="modal-box">
-            <DialogTitle>Create new session</DialogTitle>
-            <DialogDescription>
-                Start a new mocap shooting here
-            </DialogDescription>
+    <TransitionRoot appear :show="isOpen" as="template">
+        <Dialog as="div" @close="closeModal" class="relative z-10">
+            <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
+                leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-black/25" />
+            </TransitionChild>
 
-            <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
-                <FormTextInput placeholder="My latest session..." label="Session name" name="name" type="text" />
-                <FormTextInput placeholder="22-07-2024" label="Session date" name="date" type="text" />
-                <FormTextInput placeholder="D:/Path/To/Data" label="Session folder path" name="path" type="text" />
+            <div class="fixed inset-0 overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center">
+                    <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
+                        enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
+                        leave-to="opacity-0 scale-95">
 
-                <div class="">
-                    <button class="btn btn-success" type="submit" @click="setIsOpen(false)">Submit</button>
-                    <button @click="reset" class="btn btn-danger" type="button">Reset</button>
-                    <button @click="setIsOpen(false)">Cancel</button>
+                        <DialogPanel
+                            class="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all modal-box">
+                            <DialogTitle as="h3" class="text-lg font-medium leading-6 ">
+                                Create new session
+                            </DialogTitle>
+
+                            <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
+                                <FormTextInput placeholder="Session name..." label="Session name" name="name"/>
+                                <FormDateInput label="Session date" name="date" />
+                                <FormFileInput placeholder="D:/Path/To/Data" label="Session folder path" name="path"
+                                    type="text" />
+
+                                <div class="pt-4 flex justify-end gap-2">
+                                    <button class="btn btn-success" type="submit" @click="closeModal">Submit</button>
+                                    <button class="btn btn-danger" @click="closeModal">Cancel</button>
+                                </div>
+                            </Form>
+                        </DialogPanel>
+                    </TransitionChild>
                 </div>
-            </Form>
-        </DialogPanel>
-    </Dialog>
+            </div>
+        </Dialog>
+    </TransitionRoot>
 
-    <!-- <div class="modal-box">
+    <!-- <div class="my-modal-box">
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
         <h3 class="text-lg font-bold">Create new session</h3>
 
     </div>
-    <form method="dialog" class="modal-backdrop">
+    <form method="dialog" class="my-modal-backdrop">
         <button>close</button>
     </form> -->
 </template>

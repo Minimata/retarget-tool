@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate'
+import OpenFolderButton from './OpenFolderButton.vue';
 
 const props = defineProps({
     name: {
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const { value, errorMessage, meta } = useField(() => props.name)
+
 </script>
 
 <template>
@@ -18,8 +20,8 @@ const { value, errorMessage, meta } = useField(() => props.name)
         <div v-if="label" :for="name" class="label">
             <span class="label-text">{{ label }}</span>
         </div>
-        <input :id="name" :class="{ field_error: errorMessage, valid: meta.valid }" class="input input-bordered w-full"
-            v-model="value" :placeholder="placeholder" type="text" />
+
+        <OpenFolderButton v-model="value as string" :class="{ field_error: errorMessage, valid: meta.valid }" :id="name"/>
 
         <div v-if="errorMessage" class="label">
             <span class="label-text-alt text-error">{{ errorMessage }}</span>
