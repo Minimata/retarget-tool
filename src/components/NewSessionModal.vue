@@ -14,7 +14,7 @@ import {
 
 import FormTextInput from './FormTextInput.vue';
 import FormDateInput from './FormDateInput.vue';
-import FormFileInput from './FormFileInput.vue';
+import FormFolderInput from './FormFolderInput.vue';
 
 const isOpen = defineModel<boolean>()
 
@@ -66,9 +66,9 @@ function closeModal() {
                             </DialogTitle>
 
                             <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
-                                <FormTextInput placeholder="Session name..." label="Session name" name="name"/>
+                                <FormTextInput placeholder="Session name..." label="Session name" name="name" />
                                 <FormDateInput label="Session date" name="date" />
-                                <FormFileInput placeholder="D:/Path/To/Data" label="Session folder path" name="path"
+                                <FormFolderInput placeholder="D:/Path/To/Data" label="Session folder path" name="path"
                                     type="text" />
 
                                 <div class="pt-4 flex justify-end gap-2">
