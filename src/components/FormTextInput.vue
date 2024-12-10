@@ -10,7 +10,7 @@ const props = defineProps({
     label: String
 })
 
-const { value, errorMessage, meta } = useField(() => props.name)
+const { value, errorMessage, meta } = useField<string>(() => props.name)
 </script>
 
 <template>

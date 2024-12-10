@@ -12,7 +12,7 @@ const props = defineProps({
     label: String
 })
 
-const { value, errorMessage, meta } = useField(() => props.name)
+const { value, errorMessage, meta } = useField<Date>(() => props.name)
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const { value, errorMessage, meta } = useField(() => props.name)
             <span class="label-text">{{ label }}</span>
         </div>
 
-        <VueDatePicker :teleport="true" dark :state="meta.valid" v-model="value as Date">
+        <VueDatePicker :teleport="true" dark :state="meta.valid" v-model="value">
         </VueDatePicker>
 
         <div v-if="errorMessage" class="label">

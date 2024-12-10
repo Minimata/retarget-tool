@@ -11,7 +11,7 @@ const props = defineProps({
     label: String
 })
 
-const { value, errorMessage, meta } = useField(() => props.name)
+const { value, errorMessage, meta } = useField<string>(() => props.name)
 
 </script>
 
@@ -21,7 +21,7 @@ const { value, errorMessage, meta } = useField(() => props.name)
             <span class="label-text">{{ label }}</span>
         </div>
 
-        <OpenFolderButton v-model="value as string" :class="{ field_error: errorMessage, valid: meta.valid }" :id="name"/>
+        <OpenFolderButton v-model="value" :class="{ field_error: errorMessage, valid: meta.valid }" :id="name"/>
 
         <div v-if="errorMessage" class="label">
             <span class="label-text-alt text-error">{{ errorMessage }}</span>
