@@ -6,54 +6,6 @@ import SessionItem from '../components/SessionItem.vue';
 import NewSessionModal from '../components/NewSessionModal.vue';
 import { ref } from 'vue';
 
-// const sessions = ref([
-//   {
-//     id: 1,
-//     title: "Session 1",
-//     date: new Date()
-//   },
-//   {
-//     id: 2,
-//     title: "Session 2",
-//     date: new Date()
-//   },
-//   {
-//     id: 3,
-//     title: "Session 3",
-//     date: new Date()
-//   },
-//   {
-//     id: 4,
-//     title: "Session 4",
-//     date: new Date()
-//   },
-//   {
-//     id: 5,
-//     title: "Session 5",
-//     date: new Date()
-//   },
-//   {
-//     id: 6,
-//     title: "Session 6",
-//     date: new Date()
-//   },
-//   {
-//     id: 7,
-//     title: "Session 7",
-//     date: new Date()
-//   },
-//   {
-//     id: 8,
-//     title: "Session 8",
-//     date: new Date()
-//   },
-//   {
-//     id: 9,
-//     title: "Session 9",
-//     date: new Date()
-//   },
-// ])
-
 const { sessions } = useSessionsStore()
 
 const isModalOpen = ref(false)

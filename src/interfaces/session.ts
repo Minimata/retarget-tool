@@ -5,7 +5,7 @@ export interface SessionData {
 }
 
 interface NewSession extends SessionData {
-	id: number
+	id: number;
 }
 
 export class Session {
@@ -15,9 +15,8 @@ export class Session {
 	date: Date | undefined;
 
 	constructor(newSession: NewSession) {
-		this.id = newSession.id,
-		this.name = newSession.name
-		this.path = newSession.path
-		this.date = newSession.date
+		this.id = newSession.id, this.name = newSession.name;
+		this.path = newSession.path;
+		this.date = newSession.date;
 	}
 }
