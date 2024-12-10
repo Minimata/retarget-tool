@@ -2,8 +2,7 @@
 import { ref } from 'vue';
 
 import { Form } from 'vee-validate';
-import * as yup from 'yup'; 
-
+import * as yup from 'yup';
 import {
     TransitionRoot,
     TransitionChild,
@@ -11,6 +10,9 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/vue'
+
+import { useSessionsStore } from '../stores/sessions';
+import { SessionData } from '../interfaces/session';
 
 import FormTextInput from './FormTextInput.vue';
 import FormDateInput from './FormDateInput.vue';
@@ -21,23 +23,20 @@ const isOpen = defineModel<boolean>()
 const form = ref()
 const schema = yup.object({
     name: yup.string().required(),
-    date: yup.date().required(),
+    date: yup.date(),
     path: yup.string().required()
 })
-const formData = ref({
-    name: '',
-    date: '',
-    path: ''
-})
+
+const { addSession } = useSessionsStore()
 
 const submit = (values: any) => {
-    console.log(values)
+    addSession(values as SessionData)
+    closeModal()
 }
 
 function closeModal() {
     isOpen.value = false
 }
-
 </script>
 
 <template>
@@ -56,19 +55,20 @@ function closeModal() {
 
                         <DialogPanel
                             class="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all modal-box">
+
+                            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModal">✕</button>
                             <DialogTitle as="h3" class="text-lg font-medium leading-6 ">
                                 Create new session
                             </DialogTitle>
 
-                            <Form ref="form" :validation-schema="schema" @submit="submit" :initial-values="formData">
+                            <Form ref="form" :validation-schema="schema" @submit="submit">
                                 <FormTextInput placeholder="Session name..." label="Session name" name="name" />
                                 <FormDateInput label="Session date" name="date" />
                                 <FormFolderInput placeholder="D:/Path/To/Data" label="Session folder path" name="path"
                                     type="text" />
 
                                 <div class="pt-4 flex justify-end gap-2">
-                                    <button class="btn btn-primary" type="submit" @click="closeModal">Submit</button>
-                                    <button class="btn" @click="closeModal">Cancel</button>
+                                    <button class="btn btn-primary" type="submit">Submit</button>
                                 </div>
                             </Form>
                         </DialogPanel>

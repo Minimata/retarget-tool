@@ -79,7 +79,7 @@ function openModal() {
             <div v-else class="flex flex-col w-full gap-4">
                 <ul>
                     <li v-for="([_, session], index) in sessions">
-                        <SessionItem :id="session.id" :name="session.name" :date="session.date"
+                        <SessionItem :id="session.id" :name="session.name" :date="session.date" :path="session.path"
                             :is-odd="index % 2 != 0" />
                     </li>
                 </ul>
