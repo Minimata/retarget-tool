@@ -18,10 +18,6 @@ import FormFolderInput from './FormFolderInput.vue';
 
 const isOpen = defineModel<boolean>()
 
-function setIsOpen(value: boolean) {
-    isOpen.value = value
-}
-
 const form = ref()
 const schema = yup.object({
     name: yup.string().required(),
@@ -35,7 +31,6 @@ const formData = ref({
 })
 
 const submit = (values: any) => {
-    // implement your logic here
     console.log(values)
 }
 
@@ -72,8 +67,8 @@ function closeModal() {
                                     type="text" />
 
                                 <div class="pt-4 flex justify-end gap-2">
-                                    <button class="btn btn-success" type="submit" @click="closeModal">Submit</button>
-                                    <button class="btn btn-danger" @click="closeModal">Cancel</button>
+                                    <button class="btn btn-primary" type="submit" @click="closeModal">Submit</button>
+                                    <button class="btn" @click="closeModal">Cancel</button>
                                 </div>
                             </Form>
                         </DialogPanel>

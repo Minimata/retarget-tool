@@ -1,14 +1,19 @@
 <script setup lang="ts">
-const folder = defineModel<string>()
-const { isValid = true } = defineProps<{ isValid?: boolean }>()
+import { open } from '@tauri-apps/plugin-dialog';
 
-function selectFolder() {
-    console.log("toto");
+const folder = defineModel<string>()
+
+async function selectFolder() {
+    const file = await open({
+        multiple: false,
+        directory: true,
+    });
+    folder.value = file!
 }
 </script>
 
 <template>
     <button
-        :class="['btn btn-primary w-full', isValid ? 'btn-error' : '']"
-        @click="selectFolder">Select a folder</button>
+        :class="['btn btn-primary w-full', folder ? 'btn-success' : 'btn-error']"
+        @click="selectFolder">{{ folder ? folder : "Select a folder" }} </button>
 </template>
