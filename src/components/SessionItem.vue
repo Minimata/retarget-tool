@@ -22,8 +22,7 @@ function deleteSession() {
 
 
 <template>
-    <div :class="['flex rounded-full w-full p-2 items-center gap-2', isOdd ? 'bg-base-300' : '']">
-
+    <div :class="['flex rounded-full w-full p-2 items-center gap-2', !isOdd ? 'bg-base-300' : '']">
         <button class="btn btn-primary rounded-full" @click="routeToSession">{{ name }}</button>
         <span class="badge badge-secondary">{{ date ? date.toDateString() : "No date selected" }}</span>
         <span class="badge badge-accent text-sm italic">{{ path }}</span>

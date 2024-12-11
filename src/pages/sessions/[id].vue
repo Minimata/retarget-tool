@@ -4,6 +4,7 @@ import { useSessionsStore } from '../../stores/sessions';
 
 import SessionMain from '../../components/SessionMain.vue';
 import { Session } from '../../interfaces/session';
+import PlaceholderItem from '../../components/PlaceholderItem.vue';
 
 const { sessions } = useSessionsStore()
 const route = useRoute('/sessions/[id]')
@@ -22,9 +23,7 @@ const session = possibleSession! as Session
         <SessionMain :session="session" />
 
         <template #fallback>
-            <p class="text-xl">
-                Loading {{ session.name }} at {{ session.path }}...
-            </p>
+            <PlaceholderItem>Loading {{ session.name }} at {{ session.path }}...</PlaceholderItem>
         </template>
     </Suspense>
 </template>

@@ -6,6 +6,8 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 import { Session } from '../interfaces/session';
 import { ref } from 'vue';
+import FileAnimItem from './FileAnimItem.vue';
+import PlaceholderItem from './PlaceholderItem.vue';
 
 const { session } = defineProps<{
     session: Session,
@@ -18,63 +20,50 @@ interface Directory {
 
 const allEntries = await readDir(session.path);
 
-const validDirectories = ['roms', 'anims', 'videorefs', 'targets']
-const supportedFileExtensions = ['.fbx']
+const validDirectories = ['roms', 'anims', 'targets', 'videorefs']
+const supportedFileExtensions = ['fbx', 'mp4', 'mov']
 const validEntries = allEntries.filter((entry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
-const entriesMap = new Map<string, Directory>(validEntries.map(entry => [entry.name.toLowerCase(), {entry: entry}]))
-const entriesOrdered = [entriesMap.get('roms'), entriesMap.get('anims'), entriesMap.get('targets'), entriesMap.get('videorefs')]
+const entriesMap = new Map<string, Directory>(validEntries.map(entry => [entry.name.toLowerCase(), { entry: entry }]))
 
-
+const re = /(?:\.([^.]+))?$/;
 for (const [name, directory] of entriesMap) {
     const contentPath = await path.join(session.path, directory.entry.name)
     const content = await readDir(contentPath);
     directory.content = content.filter((entry) => entry.isFile)
-    // directory.content = content.filter((entry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!.toLowerCase()))
-    console.log(content);
+    directory.content = content.filter((entry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!))
 }
 
 </script>
 
 <template>
-    <div class="w-full max-w-lg px-2 py-16 sm:px-0">
+    <div class="w-full p-4">
+        <div class="flex px-1 pb-4 gap-2 items-baseline">
+            <p class="text-xl">Session <span class="font-bold">{{ session.name }}</span></p>
+            <p class="badge badge-secondary">{{ session.date ? session.date.toDateString() : "No date selected" }}</p>
+            <p class="badge badge-accent text-sm italic">{{ session.path }}</p>
+        </div>
         <TabGroup>
-            <TabList class="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-                <Tab v-for="[name, directory] in entriesMap" as="template" :key="name" v-slot="{ selected }">
-                    <button :class="[
-                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                        'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-                        selected
-                            ? 'bg-white text-blue-700 shadow'
-                            : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
-                    ]">
-                        {{ directory.entry.name }}
+            <TabList class="tabs tabs-boxed">
+                <Tab v-for="name in validDirectories" as="template" :key="name" v-slot="{ selected }">
+                    <button :class="['tab', selected ? 'tab-active' : '']">
+                        {{ entriesMap.get(name)!.entry.name }}
                     </button>
                 </Tab>
             </TabList>
 
             <TabPanels class="mt-2">
-                <TabPanel v-for="[name, directory] in entriesMap" :key="name" :class="[
-                    'rounded-xl bg-white p-3',
+                <TabPanel v-for="name in validDirectories" :key="name" :class="[
+                    'rounded-xl',
                     'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 ]">
-                    <ul>
-                        <li v-for="file in directory.content" :key="file.name" class="relative rounded-md p-3 hover:bg-gray-100">
-                            <h3 class="text-sm font-medium leading-5">
-                                {{ file.name }}
-                            </h3>
-
-                            <ul class="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
-                                <li>is it a file ?</li>
-                                <li>&middot;</li>
-                                <li>{{ file.isFile ? 'Yes' : 'No' }}</li>
-                            </ul>
-
-                            <a href="#" :class="[
-                                'absolute inset-0 rounded-md',
-                                'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
-                            ]" />
+                    <ul v-if="entriesMap.get(name)!.content!.length > 0">
+                        <li v-for="(file, idx) in entriesMap.get(name)!.content" :key="file.name">
+                            <FileAnimItem :file="file" :is-odd="idx % 2 != 0" />
                         </li>
                     </ul>
+                    <div v-else>
+                        <PlaceholderItem>No {{ entriesMap.get(name)!.entry.name }} in folder...</PlaceholderItem>
+                    </div>
                 </TabPanel>
             </TabPanels>
         </TabGroup>
