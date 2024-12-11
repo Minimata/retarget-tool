@@ -22,15 +22,15 @@ const allEntries = await readDir(session.path);
 
 const validDirectories = ['roms', 'anims', 'targets', 'videorefs']
 const supportedFileExtensions = ['fbx', 'mp4', 'mov']
-const validEntries = allEntries.filter((entry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
-const entriesMap = new Map<string, Directory>(validEntries.map(entry => [entry.name.toLowerCase(), { entry: entry }]))
+const validEntries = allEntries.filter((entry: DirEntry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
+const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), { entry: entry }]))
 
 const re = /(?:\.([^.]+))?$/;
 for (const [name, directory] of entriesMap) {
     const contentPath = await path.join(session.path, directory.entry.name)
     const content = await readDir(contentPath);
-    directory.content = content.filter((entry) => entry.isFile)
-    directory.content = content.filter((entry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!))
+    directory.content = content.filter((entry: DirEntry) => entry.isFile)
+    directory.content = content.filter((entry: DirEntry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!))
 }
 
 </script>
