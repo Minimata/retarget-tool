@@ -46,7 +46,7 @@ for (const [name, directory] of entriesMap) {
             <TabList class="tabs tabs-boxed">
                 <Tab v-for="name in validDirectories" as="template" :key="name" v-slot="{ selected }">
                     <button :class="['tab', selected ? 'tab-active' : '']">
-                        {{ entriesMap.get(name)!.entry.name }}
+                        {{ entriesMap.get(name) ? entriesMap.get(name)!.entry.name : name }}
                     </button>
                 </Tab>
             </TabList>
@@ -56,13 +56,13 @@ for (const [name, directory] of entriesMap) {
                     'rounded-xl',
                     'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 ]">
-                    <ul v-if="entriesMap.get(name)!.content!.length > 0">
+                    <ul v-if="entriesMap.get(name) && entriesMap.get(name)!.content!.length > 0">
                         <li v-for="(file, idx) in entriesMap.get(name)!.content" :key="file.name">
                             <FileAnimItem :file="file" :is-odd="idx % 2 != 0" />
                         </li>
                     </ul>
                     <div v-else>
-                        <PlaceholderItem>No {{ entriesMap.get(name)!.entry.name }} in folder...</PlaceholderItem>
+                        <PlaceholderItem>No {{ name }} in folder...</PlaceholderItem>
                     </div>
                 </TabPanel>
             </TabPanels>
