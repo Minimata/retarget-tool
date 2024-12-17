@@ -4,6 +4,7 @@ import { DirEntry, readDir } from '@tauri-apps/plugin-fs';
 import * as path from '@tauri-apps/api/path';
 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+// @ts-ignore
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
@@ -19,6 +20,7 @@ const { session } = defineProps<{
 }>()
 
 const currentlySelectedFile = ref<DirEntry>()
+const currentlySelectedFolder = ref<DirEntry>()
 const currentlySelectedFileType = ref<Filetype>(Filetype.TIMESHEET)
 
 interface Directory {
@@ -47,18 +49,18 @@ const validDirectories = Array.from(directoryTypeMap.keys())
 const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
 const validEntries = allEntries.filter((entry: DirEntry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
 const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), { entry: entry }]))
-console.log(directoryTypeMap);
 
 
-for (const [name, directory] of entriesMap) {
+for (const [_, directory] of entriesMap) {
     const contentPath = await path.join(session.path, directory.entry.name)
     const content = await readDir(contentPath);
     directory.content = content.filter((entry: DirEntry) => entry.isFile)
     directory.content = content.filter((entry: DirEntry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!))
 }
 
-function itemClickedOn(file: DirEntry, type: Filetype) {
+function itemClickedOn(file: DirEntry, folder: DirEntry, type: Filetype) {
     currentlySelectedFile.value = file
+    currentlySelectedFolder.value = folder
     currentlySelectedFileType.value = type
 }
 
@@ -88,7 +90,7 @@ function itemClickedOn(file: DirEntry, type: Filetype) {
                         ]">
                             <ul v-if="directory.content!.length > 0">
                                 <li v-for="(file, idx) in directory.content" :key="file.name">
-                                    <FileAnimItem :file="file" :is-odd="idx % 2 != 0"
+                                    <FileAnimItem :file="file" :folder="directory.entry" :is-odd="idx % 2 != 0"
                                         :type="directoryTypeMap.get(name)!" @clicked-on="itemClickedOn" />
                                 </li>
                             </ul>
@@ -102,7 +104,7 @@ function itemClickedOn(file: DirEntry, type: Filetype) {
             <Pane v-if="currentlySelectedFile">
                 <h1 class="text-xl">{{ currentlySelectedFile!.name }}</h1>
                 <component :is="typeToComponentMap.get(currentlySelectedFileType)"
-                    v-bind="{ session: session, file: currentlySelectedFile }">
+                    v-bind="{ session: session, folder: currentlySelectedFolder, file: currentlySelectedFile }">
                 </component>
             </Pane>
         </Splitpanes>

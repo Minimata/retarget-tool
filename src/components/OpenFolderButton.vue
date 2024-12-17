@@ -7,6 +7,7 @@ async function selectFolder() {
     const file = await open({
         multiple: false,
         directory: true,
+        recursive: true
     });
     folder.value = file!
 }

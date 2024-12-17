@@ -7,10 +7,12 @@
     "npm:@tauri-apps/plugin-dialog@2.2": "2.2.0",
     "npm:@tauri-apps/plugin-fs@2.2": "2.2.0",
     "npm:@tauri-apps/plugin-shell@2": "2.0.1",
+    "npm:@types/smpte-timecode@^1.2.5": "1.2.5",
     "npm:@vitejs/plugin-vue@^5.0.5": "5.2.1_vite@5.4.11_vue@3.5.13__typescript@5.7.2_typescript@5.7.2",
     "npm:@vuepic/vue-datepicker@10": "10.0.0_vue@3.5.13__typescript@5.7.2_typescript@5.7.2",
     "npm:@vueuse/core@12": "12.0.0_typescript@5.7.2",
     "npm:autoprefixer@^10.4.20": "10.4.20_postcss@8.4.49",
+    "npm:csv-parse@^5.6.0": "5.6.0",
     "npm:csv@^6.3.11": "6.3.11",
     "npm:daisyui@^4.12.14": "4.12.14_postcss@8.4.49",
     "npm:pinia@^2.3.0": "2.3.0_typescript@5.7.2_vue@3.5.13__typescript@5.7.2",
@@ -320,6 +322,9 @@
     },
     "@types/estree@1.0.6": {
       "integrity": "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="
+    },
+    "@types/smpte-timecode@1.2.5": {
+      "integrity": "sha512-zIm0CDcdA+Rb/IUWjosoqsA+uSRk7XbbR/ThlmNtxQcsRoteQDsNNt90VCHvJ2n8Of4kOuGQIPdBZhlHYLWGXg=="
     },
     "@types/web-bluetooth@0.0.20": {
       "integrity": "sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow=="
@@ -1411,10 +1416,12 @@
         "npm:@tauri-apps/plugin-dialog@2.2",
         "npm:@tauri-apps/plugin-fs@2.2",
         "npm:@tauri-apps/plugin-shell@2",
+        "npm:@types/smpte-timecode@^1.2.5",
         "npm:@vitejs/plugin-vue@^5.0.5",
         "npm:@vuepic/vue-datepicker@10",
         "npm:@vueuse/core@12",
         "npm:autoprefixer@^10.4.20",
+        "npm:csv-parse@^5.6.0",
         "npm:csv@^6.3.11",
         "npm:daisyui@^4.12.14",
         "npm:pinia@^2.3.0",

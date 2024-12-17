@@ -4,6 +4,7 @@ import { Filetype } from '../../interfaces/Filetypes';
 
 const { file, isOdd } = defineProps<{
     file: DirEntry,
+    folder: DirEntry,
     type: Filetype,
     isOdd: boolean
 }>()
@@ -23,6 +24,6 @@ const { file, isOdd } = defineProps<{
         <a href="#" :class="[
             'absolute inset-0 rounded-md',
             'ring-primary focus:z-10 focus:outline-none focus:ring-2',
-        ]" @click="$emit('clickedOn', file, type)"/>
+        ]" @click="$emit('clickedOn', file, folder, type)"/>
     </div>
 </template>
