@@ -27,10 +27,11 @@ function randomEnum<T>(anEnum: T): T[keyof T] {
         .map(n => Number.parseInt(n))
         .filter(n => !Number.isNaN(n)) as unknown as T[keyof T][]
     const randomIndex = Math.floor(Math.random() * enumValues.length)
-    const randomEnumValue = enumValues[randomIndex]
-    return randomEnumValue;
+    return enumValues[randomIndex]
 }
 
+console.log(folder)
+console.log(file)
 const fullFilePath = await path.join(session.path, folder.name, file.name)
 const contents = await readTextFile(fullFilePath);
 const records = parse(contents, {
