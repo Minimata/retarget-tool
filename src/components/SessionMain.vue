@@ -20,8 +20,8 @@ interface Directory {
 
 const allEntries = await readDir(session.path);
 
-const validDirectories = ['roms', 'anims', 'targets', 'videorefs']
-const supportedFileExtensions = ['fbx', 'mp4', 'mov']
+const validDirectories = ['timesheets', 'roms', 'anims', 'targets', 'videorefs']
+const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
 const validEntries = allEntries.filter((entry: DirEntry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
 const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), { entry: entry }]))
 
