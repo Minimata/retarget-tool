@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { DirEntry } from '@tauri-apps/plugin-fs';
+import { Filetype } from '../../interfaces/Filetypes';
 
 const { file, isOdd } = defineProps<{
     file: DirEntry,
+    type: Filetype,
     isOdd: boolean
 }>()
 </script>
 <template>
-    <div :class="['relative rounded-md p-3 hover:bg-gray-100', !isOdd ? 'bg-base-300' : '']">
+    <div :class="['relative rounded-md p-3 hover:bg-base-300', !isOdd ? 'bg-base-200' : '']">
         <h3 class="text-sm font-medium leading-5">
             {{ file.name }}
         </h3>
@@ -20,7 +22,7 @@ const { file, isOdd } = defineProps<{
 
         <a href="#" :class="[
             'absolute inset-0 rounded-md',
-            'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
-        ]" />
+            'ring-primary focus:z-10 focus:outline-none focus:ring-2',
+        ]" @click="$emit('clickedOn', file, type)"/>
     </div>
 </template>

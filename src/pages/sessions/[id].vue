@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useSessionsStore } from '../../stores/sessions';
 
-import SessionMain from '../../components/SessionMain.vue';
+import SessionMain from '../../components/Sessions/SessionMain.vue';
 import { Session } from '../../interfaces/session';
 import PlaceholderItem from '../../components/PlaceholderItem.vue';
 

@@ -2,8 +2,8 @@
 import { useSessionsStore } from '../stores/sessions';
 
 import SectionTitle from '../components/SectionTitle.vue';
-import SessionItem from '../components/SessionItem.vue';
-import NewSessionModal from '../components/NewSessionModal.vue';
+import SessionItem from '../components/Sessions/SessionItem.vue';
+import NewSessionModal from '../components/Sessions/NewSessionModal.vue';
 import { ref } from 'vue';
 
 const { sessions } = useSessionsStore()

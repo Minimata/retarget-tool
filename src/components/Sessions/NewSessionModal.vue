@@ -11,12 +11,12 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 
-import { useSessionsStore } from '../stores/sessions';
-import { SessionData } from '../interfaces/session';
+import { useSessionsStore } from '../../stores/sessions';
+import { SessionData } from '../../interfaces/session';
 
-import FormTextInput from './FormTextInput.vue';
-import FormDateInput from './FormDateInput.vue';
-import FormFolderInput from './FormFolderInput.vue';
+import FormTextInput from '../Forms/FormTextInput.vue';
+import FormDateInput from '../Forms/FormDateInput.vue';
+import FormFolderInput from '../Forms/FormFolderInput.vue';
 
 const isOpen = defineModel<boolean>()
 
@@ -56,7 +56,8 @@ function closeModal() {
                         <DialogPanel
                             class="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all modal-box">
 
-                            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModal">✕</button>
+                            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                @click="closeModal">✕</button>
                             <DialogTitle as="h3" class="text-lg font-medium leading-6 ">
                                 Create new session
                             </DialogTitle>

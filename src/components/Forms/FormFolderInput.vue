@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate'
-import OpenFolderButton from './OpenFolderButton.vue';
+import OpenFolderButton from '../OpenFolderButton.vue';
 
 const props = defineProps({
     name: {
