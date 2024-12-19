@@ -3,35 +3,15 @@ import {SessionFileInput} from '../../interfaces/sessionFileInput'
 import * as path from '@tauri-apps/api/path';
 import {readTextFile} from '@tauri-apps/plugin-fs';
 import {parse} from 'csv-parse/browser/esm/sync';
+import {Animation, AnimationStatus} from "../../interfaces/animation.ts";
+import {useAnimationsStore} from "../../stores/animations.ts";
+import {useAnimationsUtils} from "../../stores/animationUtils.ts";
 
 const {session, folder, file} = defineProps<SessionFileInput>()
 
-enum RecordStatus {
-    NONE,
-    OK,
-    WARNING,
-    ERROR,
-}
+const { animations } = useAnimationsStore()
+const {checkAnimationsFromTimesheet, trimAnimationFBXFiles} = useAnimationsUtils()
 
-interface Record {
-    filename: string,
-    description: string,
-    tcin: string,
-    tcout: string,
-    status: RecordStatus,
-    statusMessage: string,
-}
-
-function randomEnum<T>(anEnum: T): T[keyof T] {
-    const enumValues = Object.keys(anEnum)
-        .map(n => Number.parseInt(n))
-        .filter(n => !Number.isNaN(n)) as unknown as T[keyof T][]
-    const randomIndex = Math.floor(Math.random() * enumValues.length)
-    return enumValues[randomIndex]
-}
-
-console.log(folder)
-console.log(file)
 const fullFilePath = await path.join(session.path, folder.name, file.name)
 const contents = await readTextFile(fullFilePath);
 const records = parse(contents, {
@@ -42,7 +22,6 @@ const records = parse(contents, {
 });
 
 let lastKnownFilename = ""
-const actualRecords: Record[] = []
 for (const record of records) {
     const filename: string = record['Filename']
     const description: string = record['Anim Description']
@@ -50,30 +29,31 @@ for (const record of records) {
     const tcout: string = record['TC End']
     if (tcin.length > 0 && tcout.length > 0) {
         lastKnownFilename = filename.length > 0 ? filename : lastKnownFilename
-        actualRecords.push({
+        const animation = new Animation({
             filename: lastKnownFilename,
+            session: session,
             description: description,
             tcin: tcin,
             tcout: tcout,
-            status: randomEnum(RecordStatus),
+            status: AnimationStatus.NONE,
             statusMessage: ""
         })
+        animations.push(animation)
     }
 }
 
-
-const recordStatusToBGColor = new Map<RecordStatus, string>([
-    [RecordStatus.NONE, ""],
-    [RecordStatus.OK, "bg-success text-success-content"],
-    [RecordStatus.WARNING, "bg-warning text-warning-content"],
-    [RecordStatus.ERROR, "bg-error text-error-content"],
+const animStatusToBGColor = new Map<AnimationStatus, string>([
+    [AnimationStatus.NONE, ""],
+    [AnimationStatus.OK, "bg-success text-success-content"],
+    [AnimationStatus.WARNING, "bg-warning text-warning-content"],
+    [AnimationStatus.ERROR, "bg-error text-error-content"],
 ])
 
 function checkRecords() {
-    console.log(actualRecords)
+    checkAnimationsFromTimesheet(animations)
 }
 function trimFBXFiles() {
-    console.log('will do mate, will do')
+    trimAnimationFBXFiles(animations)
 }
 </script>
 
@@ -90,7 +70,7 @@ function trimFBXFiles() {
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(record, index) in actualRecords" :key="record.filename + index.toString()" :class="[recordStatusToBGColor.get(record.status, '')]">
+            <tr v-for="(record, index) in animations" :key="record.filename + index.toString()" :class="[animStatusToBGColor.get(record.status)]">
                 <th class="text-gray-400">{{ index }}</th>
                 <td>{{ record.filename }}</td>
                 <td>{{ record.tcin }}</td>

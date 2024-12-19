@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DirEntry } from '@tauri-apps/plugin-fs';
-import { Filetype } from '../../interfaces/Filetypes';
+import { Filetype } from '../../interfaces/filesystem.ts';
 
 const { file, folder, type, isOdd } = defineProps<{
     file: DirEntry,
@@ -8,8 +8,6 @@ const { file, folder, type, isOdd } = defineProps<{
     type: Filetype,
     isOdd: boolean
 }>()
-console.log(folder)
-console.log(type)
 </script>
 <template>
     <div :class="['relative rounded-md p-3 hover:bg-base-300', !isOdd ? 'bg-base-200' : '']">

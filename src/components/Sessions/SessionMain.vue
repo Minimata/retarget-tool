@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { DirEntry, readDir } from '@tauri-apps/plugin-fs';
+import {ref} from 'vue';
+import {DirEntry, readDir} from '@tauri-apps/plugin-fs';
 import * as path from '@tauri-apps/api/path';
 
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import {TabGroup, TabList, Tab, TabPanels, TabPanel} from '@headlessui/vue'
 // @ts-ignore
-import { Splitpanes, Pane } from 'splitpanes'
+import {Splitpanes, Pane} from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
-import { Session } from '../../interfaces/session';
-import { Filetype } from '../../interfaces/Filetypes';
+import {Session} from '../../interfaces/session';
+import {Filetype, supportedFileExtensions, availableFoldersForTypes} from '../../interfaces/filesystem.ts';
+import {useFoldersStore} from "../../stores/folders.ts";
 import FileAnimItem from './FileAnimItem.vue';
 import PlaceholderItem from '../PlaceholderItem.vue';
 import ROMPane from './ROMPane.vue';
 import TimesheetPane from './TimesheetPane.vue';
 
-const { session } = defineProps<{
+const {session} = defineProps<{
     session: Session,
 }>()
 
@@ -38,18 +39,14 @@ const typeToComponentMap = new Map<Filetype, any>([
     [Filetype.VIDEOREF, TimesheetPane],
 ])
 
-const directoryTypeMap = new Map<string, Filetype>([
-    ['timesheets', Filetype.TIMESHEET],
-    ['roms', Filetype.ROM],
-    ['anims', Filetype.ANIM],
-    ['targets', Filetype.TARGET],
-    ['videorefs', Filetype.VIDEOREF]
-])
-const validDirectories = Array.from(directoryTypeMap.keys())
-const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
+const validDirectories = Array.from(availableFoldersForTypes.keys())
 const validEntries = allEntries.filter((entry: DirEntry) => entry.isDirectory && validDirectories.includes(entry.name.toLowerCase()))
-const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), { entry: entry }]))
+const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), {entry: entry}]))
 
+const usedFolders = new Map<Filetype, string>(validEntries.map((entry: DirEntry) => [availableFoldersForTypes.get(entry.name.toLowerCase())!, entry.name]))
+const { folders, setCurrentlyUsedFolders } = useFoldersStore();
+await setCurrentlyUsedFolders(session, usedFolders);
+console.log(folders)
 
 for (const [_, directory] of entriesMap) {
     const contentPath = await path.join(session.path, directory.entry.name)
@@ -63,7 +60,6 @@ function itemClickedOn(file: DirEntry, folder: DirEntry, type: Filetype) {
     currentlySelectedFolder.value = folder
     currentlySelectedFileType.value = type
 }
-
 </script>
 
 <template>
@@ -91,7 +87,8 @@ function itemClickedOn(file: DirEntry, folder: DirEntry, type: Filetype) {
                             <ul v-if="directory.content!.length > 0">
                                 <li v-for="(file, idx) in directory.content" :key="file.name">
                                     <FileAnimItem :file="file" :folder="directory.entry" :is-odd="idx % 2 != 0"
-                                        :type="directoryTypeMap.get(name)!" @clicked-on="itemClickedOn" />
+                                                  :type="availableFoldersForTypes.get(name)!"
+                                                  @clicked-on="itemClickedOn"/>
                                 </li>
                             </ul>
                             <div v-else>
@@ -104,7 +101,7 @@ function itemClickedOn(file: DirEntry, folder: DirEntry, type: Filetype) {
             <Pane v-if="currentlySelectedFile">
                 <h1 class="text-xl">{{ currentlySelectedFile!.name }}</h1>
                 <component :is="typeToComponentMap.get(currentlySelectedFileType)"
-                    v-bind="{ session: session, folder: currentlySelectedFolder, file: currentlySelectedFile }">
+                           v-bind="{ session: session, folder: currentlySelectedFolder, file: currentlySelectedFile }">
                 </component>
             </Pane>
         </Splitpanes>
