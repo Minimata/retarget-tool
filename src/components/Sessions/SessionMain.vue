@@ -44,15 +44,14 @@ const validEntries = allEntries.filter((entry: DirEntry) => entry.isDirectory &&
 const entriesMap = new Map<string, Directory>(validEntries.map((entry: DirEntry) => [entry.name.toLowerCase(), {entry: entry}]))
 
 const usedFolders = new Map<Filetype, string>(validEntries.map((entry: DirEntry) => [availableFoldersForTypes.get(entry.name.toLowerCase())!, entry.name]))
-const { folders, setCurrentlyUsedFolders } = useFoldersStore();
+const { setCurrentlyUsedFolders } = useFoldersStore();
 await setCurrentlyUsedFolders(session, usedFolders);
-console.log(folders)
 
 for (const [_, directory] of entriesMap) {
     const contentPath = await path.join(session.path, directory.entry.name)
     const content = await readDir(contentPath);
     directory.content = content.filter((entry: DirEntry) => entry.isFile)
-    directory.content = content.filter((entry: DirEntry) => entry.isFile && supportedFileExtensions.includes(entry.name.split('.').pop()!))
+    directory.content = content.filter((entry: DirEntry) => entry.isFile && supportedFileExtensions().has(entry.name.split('.').pop()!))
 }
 
 function itemClickedOn(file: DirEntry, folder: DirEntry, type: Filetype) {

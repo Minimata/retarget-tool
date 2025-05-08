@@ -1,15 +1,26 @@
 import { defineStore } from 'pinia';
 import { Animation, AnimationStatus } from "../interfaces/animation.ts";
-import { Filetype, supportedFileExtensions, availableFoldersForTypes } from '../interfaces/filesystem.ts';
-import { DirEntry, readDir } from '@tauri-apps/plugin-fs';
+import { Filetype, filetypeToExtensions, availableFoldersForTypes } from '../interfaces/filesystem.ts';
+import { useFoldersStore } from './folders.ts';
 import * as path from '@tauri-apps/api/path';
+import { exists } from '@tauri-apps/plugin-fs';
 
 
 export const useAnimationsUtils = defineStore('animationUtils', () => {
-    function checkAnimationsFromTimesheet(animations: Animation[]) {
-        console.log(animations);
+    async function checkAnimationsFromTimesheet(animations: Animation[]) {
+        const { folders } = useFoldersStore();
         for (const animation of animations) {
-            animation.status = AnimationStatus.OK
+            const folderPath = folders.get(Filetype.ANIM)!
+            const fileExtension = filetypeToExtensions.get(Filetype.ANIM)![0]
+            const animPath = await path.join(folderPath, animation.filename + "." + fileExtension)
+            if (await exists(animPath)) {
+                animation.status = AnimationStatus.OK;
+            }
+            else {
+                animation.status = AnimationStatus.ERROR;
+                animation.statusMessage = "Could not find file for animation.";
+                console.log(animPath);
+            }
         }
     }
 

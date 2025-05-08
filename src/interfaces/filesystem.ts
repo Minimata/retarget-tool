@@ -35,4 +35,22 @@ export const availableFoldersForTypes = new Map<string, Filetype>([
 	['video reference', Filetype.VIDEOREF]
 ])
 
-export const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
+// export const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
+
+export const filetypeToExtensions = new Map<Filetype, string[]>([
+    [Filetype.TIMESHEET, ["csv"]],
+    [Filetype.ROM, ["fbx"]],
+    [Filetype.ANIM, ["fbx"]],
+    [Filetype.TARGET, ["fbx"]],
+    [Filetype.VIDEOREF, ["mp4", "mov"]],
+])
+
+export function supportedFileExtensions() {
+    var supportedExtensions = new Set<string>();
+    for(const [_, extensions] of filetypeToExtensions) {
+        for(const extension of extensions) {
+            supportedExtensions.add(extension)
+        }
+    }
+    return supportedExtensions;
+}
