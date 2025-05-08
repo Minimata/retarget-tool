@@ -7,12 +7,12 @@ export enum Filetype {
 }
 
 export const filetypeToFolders = new Map<Filetype, string>([
-	[Filetype.TIMESHEET, "Timesheets"],
-	[Filetype.ROM, "ROMs"],
-	[Filetype.ANIM, "Animations"],
-	[Filetype.TARGET, "Targets"],
-	[Filetype.VIDEOREF, "Videorefs"],
-])
+	[Filetype.TIMESHEET, 'Timesheets'],
+	[Filetype.ROM, 'ROMs'],
+	[Filetype.ANIM, 'Animations'],
+	[Filetype.TARGET, 'Targets'],
+	[Filetype.VIDEOREF, 'Videorefs'],
+]);
 
 export const availableFoldersForTypes = new Map<string, Filetype>([
 	['timesheets', Filetype.TIMESHEET],
@@ -32,25 +32,25 @@ export const availableFoldersForTypes = new Map<string, Filetype>([
 	['videoreferences', Filetype.VIDEOREF],
 	['videoreference', Filetype.VIDEOREF],
 	['video references', Filetype.VIDEOREF],
-	['video reference', Filetype.VIDEOREF]
-])
+	['video reference', Filetype.VIDEOREF],
+]);
 
 // export const supportedFileExtensions = ['fbx', 'mp4', 'mov', 'csv']
 
 export const filetypeToExtensions = new Map<Filetype, string[]>([
-    [Filetype.TIMESHEET, ["csv"]],
-    [Filetype.ROM, ["fbx"]],
-    [Filetype.ANIM, ["fbx"]],
-    [Filetype.TARGET, ["fbx"]],
-    [Filetype.VIDEOREF, ["mp4", "mov"]],
-])
+	[Filetype.TIMESHEET, ['csv']],
+	[Filetype.ROM, ['fbx']],
+	[Filetype.ANIM, ['fbx']],
+	[Filetype.TARGET, ['fbx']],
+	[Filetype.VIDEOREF, ['mp4', 'mov']],
+]);
 
 export function supportedFileExtensions() {
-    var supportedExtensions = new Set<string>();
-    for(const [_, extensions] of filetypeToExtensions) {
-        for(const extension of extensions) {
-            supportedExtensions.add(extension)
-        }
-    }
-    return supportedExtensions;
+	const supportedExtensions = new Set<string>();
+	for (const [_, extensions] of filetypeToExtensions) {
+		for (const extension of extensions) {
+			supportedExtensions.add(extension);
+		}
+	}
+	return supportedExtensions;
 }

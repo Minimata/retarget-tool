@@ -1,7 +1,6 @@
 import { DirEntry } from '@tauri-apps/plugin-fs';
 import { Session } from '../interfaces/session';
 
-
 export enum AnimationStatus {
 	NONE,
 	OK,
@@ -9,16 +8,15 @@ export enum AnimationStatus {
 	ERROR,
 }
 
-
 export interface AnimationData {
-	filename: string,
-	filepath?: DirEntry,
-	session: Session,
-	description: string,
-	tcin: string,
-	tcout: string,
-	status: AnimationStatus,
-	statusMessage: string,
+	filename: string;
+	filepath?: DirEntry;
+	session: Session;
+	description: string;
+	tcin: string;
+	tcout: string;
+	status: AnimationStatus;
+	statusMessage: string;
 }
 
 export class Animation {
